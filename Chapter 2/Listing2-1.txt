@@ -1,0 +1,37 @@
+library("RCurl")
+library("RJSONIO")
+
+# Accept SSL certificates issued by public Certificate Authorities
+options(RCurlOptions = list(sslVersion=3L, cainfo = system.file("CurlSSL","cacert.pem", package = "RCurl")))
+h = basicTextGatherer()
+
+req = list(Id="score00001",
+Instance=list(FeatureVector=list(
+"symboling"= "0",
+"make"= "0",
+"body-style"= "0",
+"wheel-base"= "0",
+"engine-size"= "0",
+"horsepower"= "0",
+"peak-rpm"= "0",
+"highway-mpg"= "0",
+"price"= "0"
+),GlobalParameters=fromJSON('{}')))
+
+body = toJSON(req)
+api_key = "abc123" # Replace this with the API key for the web service
+authz_hdr = paste('Bearer', api_key, sep=' ')
+
+h$reset()
+curlPerform(url = " https://ussouthcentral.services.azureml.net/workspaces/
+fcaf778fe92f4fefb2f104acf9980a6c/services/ca2aea46a205473aabca2670c5607518/
+score ",
+	httpheader=c('Content-Type' = "application/json",
+	'Authorization' = authz_hdr),
+	postfields=body,
+	writefunction = h$update,
+	verbose = TRUE
+)
+
+result = h$value()
+print(result)

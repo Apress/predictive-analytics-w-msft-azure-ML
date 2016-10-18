@@ -1,0 +1,5 @@
+SIGKDD team removed the datasets on the www.sigkdd.org website.
+
+To get the training and label data, you can use the dataset available in ML Studio
+orange_small_train.data.zip -> CRM Dataset Shared 
+orange_small_train_churn.labels -> CRM Churn Labels Shared
